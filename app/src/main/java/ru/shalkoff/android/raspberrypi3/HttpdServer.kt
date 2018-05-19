@@ -1,23 +1,19 @@
 package ru.shalkoff.android.raspberrypi3
 
 import fi.iki.elonen.NanoHTTPD
+import ru.shalkoff.android.raspberrypi3.firebase.MyFirebaseMessagingService
 
 /**
  * Простой сервер
  */
-class HttpdServer(private val listener: OnFireTriggerListener) : NanoHTTPD(PORT) {
-
-    interface OnFireTriggerListener {
-        fun onFireTriggered()
-        fun onArmTriggered()
-    }
+class HttpdServer : NanoHTTPD(PORT) {
 
     override fun serve(session: IHTTPSession): Response {
         val parameters = session.parameters
         if (parameters["on"] != null) {
-            listener.onFireTriggered()
+            RxBus.publish(MyFirebaseMessagingService.MessageEvent(1, true))
         } else if (parameters["off"] != null) {
-            listener.onArmTriggered()
+            RxBus.publish(MyFirebaseMessagingService.MessageEvent(1, false))
         }
 
         val html = ("<html><head>"

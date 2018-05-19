@@ -5,23 +5,30 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import ru.shalkoff.android.raspberrypi3.RxBus
+
 
 /**
  * Класс для принятия сообщений Firebase
  */
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
+    data class MessageEvent(val action: Int,
+                            val relayState: Boolean)
+
     /**
      * Метод вызывается, когда приходит очередное сообщение
      */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-
         //Получаем сообщение
         Log.d(TAG, "From: " + remoteMessage.from)
 
         // Проверка на содержание сообщением, полезных данных
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
+            remoteMessage.data["relay"]?.let {
+                RxBus.publish(MessageEvent(1, it.toBoolean()))
+            }
 
             if (true) {
                 // Для длительных задач, более 10 секунд использовать Job
