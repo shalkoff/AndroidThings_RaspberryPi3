@@ -7,7 +7,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import ru.shalkoff.android.raspberrypi3.RxBus
 
-
 /**
  * Класс для принятия сообщений Firebase
  */

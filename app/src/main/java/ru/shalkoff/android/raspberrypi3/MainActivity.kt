@@ -1,17 +1,10 @@
 package ru.shalkoff.android.raspberrypi3
 
 import android.app.Activity
-import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Handler
 import com.google.android.things.pio.Gpio
 import com.google.android.things.pio.PeripheralManager
-import android.content.Intent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.util.Log
 import ru.shalkoff.android.raspberrypi3.firebase.MyFirebaseMessagingService
-
 
 /**
  * Активность для управления raspberry pi 3
