@@ -1,6 +1,7 @@
-package ru.shalkoff.android.raspberrypi3
+package ru.shalkoff.android.raspberrypi3.server
 
 import fi.iki.elonen.NanoHTTPD
+import ru.shalkoff.android.raspberrypi3.util.RxBus
 import ru.shalkoff.android.raspberrypi3.firebase.MyFirebaseMessagingService
 
 /**
@@ -11,9 +12,9 @@ class HttpdServer : NanoHTTPD(PORT) {
     override fun serve(session: IHTTPSession): Response {
         val parameters = session.parameters
         if (parameters["on"] != null) {
-            RxBus.publish(MyFirebaseMessagingService.MessageEvent(1, true))
+            RxBus.publish(MyFirebaseMessagingService.PlaySoundEvent(true))
         } else if (parameters["off"] != null) {
-            RxBus.publish(MyFirebaseMessagingService.MessageEvent(1, false))
+            RxBus.publish(MyFirebaseMessagingService.PlaySoundEvent(false))
         }
 
         val html = ("<html><head>"

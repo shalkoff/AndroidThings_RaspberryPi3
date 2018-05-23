@@ -1,4 +1,4 @@
-package ru.shalkoff.android.raspberrypi3
+package ru.shalkoff.android.raspberrypi3.util
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

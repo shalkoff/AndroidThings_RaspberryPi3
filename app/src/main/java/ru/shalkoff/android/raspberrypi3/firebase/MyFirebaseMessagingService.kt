@@ -5,15 +5,16 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import ru.shalkoff.android.raspberrypi3.RxBus
+import ru.shalkoff.android.raspberrypi3.util.RxBus
 
 /**
  * Класс для принятия сообщений Firebase
  */
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    data class MessageEvent(val action: Int,
-                            val relayState: Boolean)
+    data class RelayEvent(val relayState: Boolean)
+    data class DisplayMessageEvent(val message: String)
+    data class PlaySoundEvent(val play: Boolean)
 
     /**
      * Метод вызывается, когда приходит очередное сообщение
@@ -26,7 +27,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
             remoteMessage.data["relay"]?.let {
-                RxBus.publish(MessageEvent(1, it.toBoolean()))
+                RxBus.publish(RelayEvent(it.toBoolean()))
+            }
+            remoteMessage.data["message"]?.let {
+                RxBus.publish(DisplayMessageEvent(it))
+            }
+            remoteMessage.data["playSound"]?.let {
+                RxBus.publish(PlaySoundEvent(it.toBoolean()))
             }
 
             if (true) {
