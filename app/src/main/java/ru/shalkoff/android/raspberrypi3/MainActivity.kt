@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
                             if (it.message.isEmpty()) {
                                 displayText.clear()
                             } else {
-                                displayText.show(it.message)
+                                displayText.show(it.message.toUpperCase())
                             }
                         })
         RxBus.listen(MyFirebaseMessagingService.PlaySoundEvent::class.java)

@@ -29,7 +29,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             remoteMessage.data["relay"]?.let {
                 RxBus.publish(RelayEvent(it.toBoolean()))
             }
-            remoteMessage.data["message"]?.let {
+            remoteMessage.data["messageDisplay"]?.let {
                 RxBus.publish(DisplayMessageEvent(it))
             }
             remoteMessage.data["playSound"]?.let {
